@@ -12,7 +12,12 @@ def do_format_to_lines(args):
     print(time.clock())
     data_builder.format_to_lines(args)
     print(time.clock())
-
+    
+def do_format_to_lines_NEW(args):
+    print(time.clock())
+    data_builder.format_to_lines_NEW(args)
+    print(time.clock())
+    
 def do_tokenize(args):
     print(time.clock())
     data_builder.tokenize(args)
