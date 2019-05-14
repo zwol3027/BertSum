@@ -274,7 +274,39 @@ def _format_to_bert(params):
     datasets = []
     gc.collect()
 
+def format_to_lines_NEW(args):
+    corpus_mapping = {}
+    train_files = []
+    for f in glob.glob(pjoin(args.raw_path, '*.json')):
+        real_name = f.split('/')[-1].split('.')[0]
+        train_files.append(f)
 
+    corpora = {'train': train_files}
+    for corpus_type in ['train']:
+        a_lst = [(f, args) for f in corpora[corpus_type]]
+        pool = Pool(args.n_cpus)
+        dataset = []
+        p_ct = 0
+        for d in pool.imap_unordered(_format_to_lines, a_lst):
+            dataset.append(d)
+            if (len(dataset) > args.shard_size):
+                pt_file = "{:s}.{:s}.{:d}.json".format(args.save_path, corpus_type, p_ct)
+                with open(pt_file, 'w') as save:
+                    # save.write('\n'.join(dataset))
+                    save.write(json.dumps(dataset))
+                    p_ct += 1
+                    dataset = []
+
+        pool.close()
+        pool.join()
+        if (len(dataset) > 0):
+            pt_file = "{:s}.{:s}.{:d}.json".format(args.save_path, corpus_type, p_ct)
+            with open(pt_file, 'w') as save:
+                # save.write('\n'.join(dataset))
+                save.write(json.dumps(dataset))
+                p_ct += 1
+                dataset = []
+                
 def format_to_lines(args):
     corpus_mapping = {}
     for corpus_type in ['valid', 'test', 'train']:
