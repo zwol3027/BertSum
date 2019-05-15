@@ -11,7 +11,7 @@ os.system('rm -r results; mkdir results')
 
 os.chdir(main_directory +'/src')
 
-os.system('python preprocess.py -mode tokenize -raw_path ../small_raw_data -save_path ../merged_stories_tokenized -log_file ../logs/cnndm.log')
+os.system('python preprocess.py -mode tokenize -raw_path ../raw_text_files -save_path ../merged_stories_tokenized -log_file ../logs/cnndm.log')
 os.system('python preprocess.py -mode format_to_lines_NEW -raw_path ../merged_stories_tokenized -n_cpus 1 -save_path ../json_data/cnndm -map_path ../urls -lower -dataset test -log_file ../logs/cnndm.log')
 os.system ('python preprocess.py -mode format_to_bert -dataset test -raw_path ../json_data -save_path ../bert_data -oracle_mode greedy -n_cpus 1 -log_file ../logs/preprocess.log')
 
