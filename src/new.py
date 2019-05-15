@@ -15,8 +15,8 @@ os.system('python preprocess.py -mode tokenize -raw_path ../raw_text_files -save
 os.system('python preprocess.py -mode format_to_lines_NEW -raw_path ../merged_stories_tokenized -n_cpus 1 -save_path ../json_data/cnndm -map_path ../urls -lower -dataset test -log_file ../logs/cnndm.log')
 os.system ('python preprocess.py -mode format_to_bert -dataset test -raw_path ../json_data -save_path ../bert_data -oracle_mode greedy -n_cpus 1 -log_file ../logs/preprocess.log')
 
-
-os.system('python train.py -mode test -bert_data_path ../bert_data/cnndm -test_from ../pretrained_bertsum/cnndm_bertsum_classifier_best.pt -visible_gpus 0  -gpu_ranks 0 -batch_size 30000 -result_path ../results/tester -block_trigram true -report_rouge False')
+# Visible GPUS = -1 for CPU
+os.system('python train.py -mode test -bert_data_path ../bert_data/cnndm -test_from ../pretrained_bertsum/cnndm_bertsum_classifier_best.pt -visible_gpus -1  -gpu_ranks 0 -batch_size 30000 -result_path ../results/tester -block_trigram true -report_rouge False')
 
 os.chdir(main_directory)
 
